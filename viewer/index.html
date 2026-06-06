@@ -8,32 +8,52 @@
 </head>
 <body>
 <main id="app">
-  <section id="intro">
+  <section id="intro" class="card">
     <h1>Agent 差異歸因研究</h1>
-    <p>每題會並列兩個 agent 對同一任務的輸出。請判斷兩者差異主要來自哪裡，給出信心與一句理由。</p>
+    <p>每題並列兩個 agent 對同一任務的輸出。請判斷兩者差異主要來自哪裡，並給出信心與一句理由。</p>
     <p class="muted">共 24 題，無對錯壓力，依直覺作答即可。</p>
-    <label>受試者代號（匿名）：<input id="pid" placeholder="P-anon-01" autocomplete="off"></label>
-    <button id="start">開始</button>
+    <label for="pid">受試者代號（匿名）</label>
+    <input id="pid" type="text" placeholder="例如 P-anon-01" autocomplete="off">
+    <div class="actions"><button id="start" class="btn-primary">開始</button></div>
   </section>
 
   <section id="trial" hidden>
-    <header><span id="progress"></span><span id="scenario"></span></header>
-    <p id="task"></p>
+    <div class="progress-row">
+      <span id="progress"></span>
+      <span id="scenario" class="badge"></span>
+    </div>
+    <div class="progressbar"><div id="progressfill"></div></div>
+
+    <p id="task" class="task"></p>
     <div id="outputs"></div>
-    <fieldset id="attribution"><legend>這兩個輸出的差異主要來自？</legend></fieldset>
-    <fieldset id="confidence"><legend>信心（1 低 – 5 高）</legend></fieldset>
-    <label id="rationale-wrap">一句理由：<input id="rationale" autocomplete="off"></label>
+
+    <fieldset id="attribution">
+      <legend>這兩個輸出的差異主要來自？</legend>
+      <div class="choices"></div>
+    </fieldset>
+
+    <fieldset id="confidence">
+      <legend>你的信心</legend>
+      <div class="confs"></div>
+      <div class="conf-scale"><span>1 沒把握</span><span>5 很確定</span></div>
+    </fieldset>
+
+    <div class="rationale">
+      <label for="rationale">一句理由</label>
+      <input id="rationale" type="text" autocomplete="off" placeholder="例如：兩邊工具策略差很多，但結果都對，較像框架差異">
+    </div>
+
     <div class="actions">
-      <button id="submit">送出並揭露正解</button>
-      <button id="next" hidden>下一題</button>
+      <button id="submit" class="btn-primary">送出並揭露正解</button>
+      <button id="next" class="btn-secondary" hidden>下一題</button>
     </div>
     <div id="reveal" hidden></div>
   </section>
 
-  <section id="done" hidden>
-    <h2>完成，謝謝</h2>
-    <p>請下載作答檔並回傳。</p>
-    <button id="export">下載作答檔</button>
+  <section id="done" class="card" hidden>
+    <h2>完成，謝謝你的參與</h2>
+    <p class="muted">請下載作答檔並回傳。</p>
+    <div class="actions"><button id="export" class="btn-primary">下載作答檔</button></div>
   </section>
 </main>
 <script type="module" src="app.js"></script>
