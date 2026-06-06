@@ -1,0 +1,4 @@
+[
+ {"pair_id":"PX","condition":"A","scenario":"switch_after","choice":"harness","ground_truth":"harness","correct":true,"confidence":3,"rationale":"","time_ms":1,"order":1},
+ {"choice":"model","confidence":2,"rationale":"x","participant_id":"008"}
+]

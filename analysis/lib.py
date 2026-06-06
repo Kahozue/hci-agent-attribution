@@ -4,11 +4,29 @@ from collections import defaultdict
 
 TYPES = ["harness", "model", "interaction", "noise"]
 
+REQUIRED_TRIAL_FIELDS = {"ground_truth", "choice", "correct", "confidence", "scenario", "condition"}
+
+
+def _extract_trials(data):
+    """容納兩種匯出格式：{"trials": [...]} 或裸 list。"""
+    if isinstance(data, dict):
+        return data.get("trials", [])
+    if isinstance(data, list):
+        return data
+    return []
+
+
+def valid_trial(t):
+    return isinstance(t, dict) and REQUIRED_TRIAL_FIELDS <= set(t.keys())
+
 
 def load_trials(paths):
+    """載入並只保留欄位齊全、可計分的 trial（殘缺格式自動略過）。"""
     trials = []
     for p in paths:
-        trials += json.load(open(p))["trials"]
+        for t in _extract_trials(json.load(open(p))):
+            if valid_trial(t):
+                trials.append(t)
     return trials
 
 

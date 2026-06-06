@@ -40,13 +40,27 @@ def main():
     paths = sorted({p for pat in a.responses for p in glob.glob(pat)})
     if not paths:
         raise SystemExit("找不到任何 responses 檔")
-    trials = lib.load_trials(paths)
+
+    trials = []
+    valid_files = []
+    skipped = []
+    for p in paths:
+        ft = lib.load_trials([p])
+        if ft:
+            valid_files.append(p)
+            trials += ft
+        else:
+            skipped.append(p)
+    if skipped:
+        print("略過（無可計分 trial）:", ", ".join(os.path.basename(s) for s in skipped))
+
     os.makedirs(a.outdir, exist_ok=True)
     _use_cjk_font()
 
     metrics = {
         "n_trials": len(trials),
-        "n_participants": len(paths),
+        "n_participants": len(valid_files),
+        "excluded_files": [os.path.basename(s) for s in skipped],
         "accuracy_overall": lib.accuracy(trials),
         "accuracy_by_condition": lib.accuracy_by(trials, "condition"),
         "accuracy_by_scenario": lib.accuracy_by(trials, "scenario"),
@@ -84,7 +98,42 @@ def main():
         plt.savefig(os.path.join(a.outdir, "calibration.png"), dpi=150, bbox_inches="tight")
         plt.close()
 
-    print(f"wrote metrics.json + figures to {a.outdir} ({len(trials)} trials, {len(paths)} participants)")
+    # 圖3：歸因混淆矩陣熱圖（真值 × 受試者所選）— RQ2 頭條
+    cm = metrics["confusion_matrix"]
+    types = lib.TYPES
+    zh = {"harness": "Harness", "model": "Model", "interaction": "交互", "noise": "雜訊"}
+    mat = [[cm[t][c] for c in types] for t in types]
+    plt.figure(figsize=(5.2, 4.4))
+    plt.imshow(mat, cmap="Blues")
+    plt.xticks(range(len(types)), [zh[t] for t in types])
+    plt.yticks(range(len(types)), [zh[t] for t in types])
+    plt.xlabel("受試者所選")
+    plt.ylabel("真值")
+    plt.title("歸因混淆矩陣")
+    vmax = max(max(row) for row in mat) or 1
+    for i in range(len(types)):
+        for j in range(len(types)):
+            plt.text(j, i, mat[i][j], ha="center", va="center",
+                     color="white" if mat[i][j] > vmax * 0.5 else "#222")
+    plt.savefig(os.path.join(a.outdir, "confusion_matrix.png"), dpi=150, bbox_inches="tight")
+    plt.close()
+
+    # 圖4：分情境正確率
+    scen = metrics["accuracy_by_scenario"]
+    if scen:
+        scen_zh = {"switch_after": "切換後", "high_risk_review": "高風險覆核", "onboarding": "Onboarding"}
+        keys = [k for k in ("switch_after", "high_risk_review", "onboarding") if k in scen]
+        plt.figure()
+        plt.bar([scen_zh.get(k, k) for k in keys], [scen[k] for k in keys])
+        plt.axhline(0.25, ls="--", color="gray", label="隨機 (0.25)")
+        plt.ylim(0, 1)
+        plt.ylabel("歸因正確率")
+        plt.title("分情境歸因正確率")
+        plt.legend()
+        plt.savefig(os.path.join(a.outdir, "accuracy_by_scenario.png"), dpi=150, bbox_inches="tight")
+        plt.close()
+
+    print(f"wrote metrics.json + 4 figures to {a.outdir} ({len(trials)} trials, {len(valid_files)} valid participants)")
 
 
 if __name__ == "__main__":

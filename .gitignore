@@ -9,6 +9,7 @@ __pycache__/
 responses-*.json
 viewer/responses-*.json
 raw-*.json
+results/
 
 # 工具、環境、產出物
 .superpowers/

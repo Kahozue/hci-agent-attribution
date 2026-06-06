@@ -13,6 +13,13 @@ def test_accuracy_overall_and_by_condition():
     assert by["A"] == 0.5 and by["B"] == 0.5
 
 
+def test_load_trials_handles_bare_list_and_skips_malformed():
+    # 裸 list 格式 + 缺必要欄位的筆數應被略過（如殘缺的 008 匯出）
+    trials = lib.load_trials([str(FIX / "responses_messy.json")])
+    assert len(trials) == 1
+    assert trials[0]["ground_truth"] == "harness"
+
+
 def test_confusion_calibration_blind_adoption():
     trials = lib.load_trials([str(FIX / "responses.json")])
     cm = lib.confusion_matrix(trials)
