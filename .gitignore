@@ -8,6 +8,7 @@ __pycache__/
 # 受試者資料（個資，不入庫）
 responses-*.json
 viewer/responses-*.json
+raw-*.json
 
 # 工具、環境、產出物
 .superpowers/
