@@ -64,14 +64,21 @@ input:focus-visible, button:focus-visible { outline: 2px solid var(--accent); ou
 
 .task { font-size: 17px; font-weight: 600; margin-bottom: var(--sp-4); }
 
-#outputs { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); margin-bottom: var(--sp-5); }
-.output { border: 1px solid var(--border); border-radius: var(--radius-sm); background: #fcfcfd; padding: var(--sp-4); }
-.output h3 { margin: 0 0 var(--sp-3); font-size: 15px; font-weight: 700; color: var(--muted); }
-.output .row { margin: var(--sp-2) 0; }
-.output .k { color: var(--muted); margin-right: 6px; }
-.seq { font-family: var(--mono); font-size: 14.5px; background: #eef1f5; padding: 3px 7px; border-radius: 6px; }
-.evidence { margin-top: var(--sp-3); padding-top: var(--sp-3); border-top: 1px dashed var(--border-strong); color: var(--muted); font-size: 14.5px; }
-.evidence .row { margin: var(--sp-1) 0; }
+#outputs { margin-bottom: var(--sp-5); overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+table.cmp { width: 100%; border-collapse: collapse; }
+table.cmp th, table.cmp td { text-align: left; vertical-align: top; padding: 11px 14px; border-bottom: 1px solid var(--border); }
+table.cmp tbody tr:last-child th, table.cmp tbody tr:last-child td { border-bottom: none; }
+table.cmp thead th { background: var(--accent-tint); color: var(--accent-ink); font-weight: 700; font-size: 15px; border-bottom: 1px solid var(--border-strong); }
+table.cmp thead th.attr { background: #f4f6f8; }
+table.cmp th.attr { width: 116px; color: var(--muted); font-weight: 600; background: #fafbfc; font-size: 14px; }
+table.cmp .ev th.attr, table.cmp .ev td { color: var(--muted); font-size: 14px; }
+.seq2 { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.tool { font-family: var(--mono); font-size: 14px; background: #eef1f5; padding: 2px 8px; border-radius: 6px; }
+.arr { color: var(--muted); }
+.oc { font-weight: 700; }
+.oc-ok { color: var(--ok); }
+.oc-part { color: #9a6700; }
+.oc-fail { color: #b3261e; }
 
 fieldset { border: none; padding: 0; margin: 0 0 var(--sp-5); }
 legend { font-weight: 700; font-size: 16px; margin-bottom: var(--sp-3); padding: 0; }
@@ -121,5 +128,7 @@ legend { font-weight: 700; font-size: 16px; margin-bottom: var(--sp-3); padding:
 
 @media (max-width: 680px) {
   body { padding: var(--sp-4) var(--sp-3); }
-  #outputs, .choices { grid-template-columns: 1fr; }
+  .choices { grid-template-columns: 1fr; }
+  table.cmp th, table.cmp td { padding: 9px 10px; }
+  table.cmp th.attr { width: 84px; }
 }

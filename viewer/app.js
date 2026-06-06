@@ -8,6 +8,12 @@ const CHOICES = [
   ["noise", "雜訊", "同設定重跑的隨機差異"],
 ];
 const SCEN = { switch_after: "切換後", high_risk_review: "高風險覆核", onboarding: "Onboarding" };
+const DK_ZH = {
+  initial_tool_strategy: "初始工具策略",
+  semantic_output_convention: "輸出慣例（語意）差異",
+  task_success_gap: "任務成敗落差",
+  noise: "重跑變異",
+};
 const $ = (s) => document.querySelector(s);
 
 const state = { seq: [], i: 0, pid: "", order: "", trials: [], startedAt: "", t0: 0, ans: {} };
@@ -20,21 +26,48 @@ async function load() {
   state.seq = buildSequence(pairs, state.order);
 }
 
-function renderSide(side, label, cond) {
-  const ev =
-    cond === "B" && side.evidence
-      ? `<div class="evidence">
-           <div class="row"><span class="k">M1–M4</span>${side.evidence.method_agreement}</div>
-           <div class="row"><span class="k">trace</span>${(side.evidence.trace_refs || []).join("、")}</div>
-           <div class="row"><span class="k">判斷類型</span>${side.evidence.decision_kind || ""}</div>
-         </div>`
-      : "";
-  return `<div class="output">
-      <h3>${label}</h3>
-      <div class="row"><span class="k">工具序列</span><span class="seq">${(side.tool_sequence || []).join(" → ")}</span></div>
-      <div class="row"><span class="k">結果</span>${side.outcome || "—"}</div>
-      ${ev}
-    </div>`;
+function seqHtml(seq) {
+  return (seq || []).map((t) => `<span class="tool">${t}</span>`).join('<span class="arr">→</span>') || "—";
+}
+
+function outcomeHtml(outcome) {
+  const m = /(\d+)\s*\/\s*(\d+)/.exec(outcome || "");
+  if (!m) return `<span class="oc">${outcome || "—"}</span>`;
+  const a = Number(m[1]);
+  const b = Number(m[2]);
+  let cls = "oc oc-part";
+  let word = "部分通過";
+  if (a === b && b > 0) { cls = "oc oc-ok"; word = "全部通過"; }
+  else if (a === 0) { cls = "oc oc-fail"; word = "未通過"; }
+  return `<span class="${cls}">${m[1]}/${m[2]}・${word}</span>`;
+}
+
+function dkZh(dk) {
+  return DK_ZH[dk] || dk || "—";
+}
+
+function evRow(label, left, right) {
+  return `<tr class="ev"><th class="attr">${label}</th><td>${left}</td><td>${right}</td></tr>`;
+}
+
+function renderComparison(L, R, cond) {
+  let evRows = "";
+  if (cond === "B") {
+    const le = L.evidence || {};
+    const re = R.evidence || {};
+    evRows =
+      evRow("M1–M4 一致度", le.method_agreement || "—", re.method_agreement || "—") +
+      evRow("trace 出處", (le.trace_refs || []).join("、") || "—", (re.trace_refs || []).join("、") || "—") +
+      evRow("判斷類型", dkZh(le.decision_kind), dkZh(re.decision_kind));
+  }
+  return `<table class="cmp">
+      <thead><tr><th class="attr"></th><th>輸出 A</th><th>輸出 B</th></tr></thead>
+      <tbody>
+        <tr><th class="attr">工具序列</th><td><div class="seq2">${seqHtml(L.tool_sequence)}</div></td><td><div class="seq2">${seqHtml(R.tool_sequence)}</div></td></tr>
+        <tr><th class="attr">結果</th><td>${outcomeHtml(L.outcome)}</td><td>${outcomeHtml(R.outcome)}</td></tr>
+        ${evRows}
+      </tbody>
+    </table>`;
 }
 
 function bindSelect(scopeSel, itemSel, key) {
@@ -55,7 +88,7 @@ function renderTrial() {
   $("#scenario").textContent = SCEN[p.scenario] || p.scenario;
   $("#progressfill").style.width = `${((state.i + 1) / total) * 100}%`;
   $("#task").textContent = `任務：${p.task_id}`;
-  $("#outputs").innerHTML = renderSide(p.left, "輸出 A", item.condition) + renderSide(p.right, "輸出 B", item.condition);
+  $("#outputs").innerHTML = renderComparison(p.left, p.right, item.condition);
 
   $("#attribution .choices").innerHTML = CHOICES.map(
     ([v, t, d]) => `<button type="button" class="choice" data-v="${v}" aria-pressed="false"><span class="t">${t}</span><span class="d">${d}</span></button>`,
