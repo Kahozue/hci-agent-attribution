@@ -104,3 +104,34 @@ def noise_pairs(cells, repo_root, want=4):
         if len(out) >= want:
             break
     return out
+
+
+CAT_SCENARIO = {
+    "benchmark": "switch_after",
+    "bug_fix": "high_risk_review",
+    "add_logging": "high_risk_review",
+    "add_tests": "onboarding",
+}
+
+
+def _scenario(p):
+    if p["pair_type"] == "noise":
+        return "switch_after"
+    return CAT_SCENARIO.get(p["task_category"], "switch_after")
+
+
+def assemble(pairs):
+    """指派 pair_id、情境、A/B set，組成 pairs.json 文件。"""
+    for i, p in enumerate(pairs):
+        p["pair_id"] = f"P{i + 1:02d}"
+        p["scenario"] = _scenario(p)
+        p["set"] = "Set1" if i % 2 == 0 else "Set2"
+    pairs.sort(key=lambda p: p["pair_id"])
+    return {
+        "schema_version": 1,
+        "source": {
+            "labels": "analysis/phase3/hci-ground-truth-labels.json",
+            "cells": "analysis/phase4/metrics-summary.json",
+        },
+        "pairs": pairs,
+    }

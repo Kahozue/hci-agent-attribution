@@ -39,3 +39,16 @@ def test_build_noise_pairs_from_traces():
     assert np_["left"]["tool_sequence"] == ["read", "edit"]
     assert np_["right"]["tool_sequence"] == ["read", "shell", "edit"]
     assert "重跑" in np_["left"]["evidence"]["method_agreement"]
+
+
+def test_assemble_pairs_json_structure():
+    labels = json.load(open(FIX / "labels.json"))["labels"]
+    cells = json.load(open(FIX / "cells.json"))
+    pairs = lib.attach_outcomes(lib.labeled_pairs(labels), cells)
+    pairs += lib.noise_pairs(cells, repo_root=str(FIX), want=1)
+    doc = lib.assemble(pairs)
+    ids = [p["pair_id"] for p in doc["pairs"]]
+    assert ids == sorted(ids) and len(ids) == len(set(ids))
+    assert all(p["scenario"] in {"switch_after", "high_risk_review", "onboarding"} for p in doc["pairs"])
+    assert all(p["set"] in {"Set1", "Set2"} for p in doc["pairs"])
+    assert doc["schema_version"] == 1
