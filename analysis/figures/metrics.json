@@ -1,0 +1,52 @@
+{
+ "n_trials": 300,
+ "n_participants": 15,
+ "excluded_files": [
+  "responses-008.json"
+ ],
+ "accuracy_overall": 0.4666666666666667,
+ "accuracy_by_condition": {
+  "A": 0.41333333333333333,
+  "B": 0.52
+ },
+ "accuracy_by_scenario": {
+  "high_risk_review": 0.425,
+  "onboarding": 0.6666666666666666,
+  "switch_after": 0.4083333333333333
+ },
+ "confusion_matrix": {
+  "harness": {
+   "harness": 62,
+   "model": 4,
+   "interaction": 3,
+   "noise": 6
+  },
+  "model": {
+   "harness": 56,
+   "model": 9,
+   "interaction": 6,
+   "noise": 4
+  },
+  "interaction": {
+   "harness": 50,
+   "model": 15,
+   "interaction": 18,
+   "noise": 7
+  },
+  "noise": {
+   "harness": 6,
+   "model": 2,
+   "interaction": 1,
+   "noise": 51
+  }
+ },
+ "calibration": {
+  "3": 0.39436619718309857,
+  "2": 0.475,
+  "4": 0.4606741573033708,
+  "5": 0.6818181818181818,
+  "1": 0.47435897435897434
+ },
+ "blind_adoption_high_risk": 0.18333333333333332,
+ "blind_adoption_overall": 0.18333333333333332
+}
