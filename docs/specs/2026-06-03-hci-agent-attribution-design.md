@@ -1,7 +1,7 @@
 # hci-agent-attribution 設計規格（Design Spec，骨架版）
 
 - 文件版本：v0（2026-06-03，骨架；待 xAI 產出 trace 後細化為 v1）
-- 作者：（匿名）　（匿名）
+- 作者：（匿名，依規定個資不入庫）
 - 課程：HCI 期末專題（報告日 2026-06-12）
 - 狀態：方向已核准；pair-viewer 介面屬視覺設計，將於細化階段另以視覺協作進行
 - 對應 repo：`hci-agent-attribution`（GitHub: `Kahozue/hci-agent-attribution`）
