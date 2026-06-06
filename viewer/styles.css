@@ -1,0 +1,70 @@
+:root {
+  --fg: #1a1a1a;
+  --muted: #555;
+  --line: #d8d8d8;
+  --bg: #fff;
+  --accent: #1f4e79;
+  --accent-bg: #eef3f9;
+}
+* { box-sizing: border-box; }
+body {
+  font-family: system-ui, "Noto Sans CJK TC", "PingFang TC", sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+  line-height: 1.7;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 24px;
+  font-size: 16px;
+}
+h1 { font-size: 24px; margin: 0 0 12px; }
+h2 { font-size: 20px; }
+.muted { color: var(--muted); }
+label { display: block; margin: 12px 0; }
+input { font-size: 16px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 4px; }
+
+#trial header {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+#task { font-weight: 600; margin: 4px 0 12px; }
+#outputs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 12px 0; }
+.output { border: 1px solid var(--line); border-radius: 6px; padding: 14px; }
+.output h3 { margin: 0 0 8px; font-size: 17px; }
+.output .row { margin: 4px 0; }
+.evidence {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+}
+
+fieldset { border: 1px solid var(--line); border-radius: 6px; margin: 12px 0; padding: 12px; }
+legend { font-weight: 600; padding: 0 6px; }
+.choice, .conf {
+  display: inline-block;
+  margin: 4px 8px 4px 0;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.choice.sel, .conf.sel {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+  font-weight: 600;
+}
+
+.actions { display: flex; gap: 10px; margin-top: 8px; }
+button { font-size: 16px; padding: 8px 16px; cursor: pointer; border: 1px solid var(--accent); background: var(--accent); color: #fff; border-radius: 6px; }
+button#next { background: #fff; color: var(--accent); }
+#rationale { width: 100%; }
+#reveal {
+  margin: 12px 0;
+  padding: 12px;
+  border-left: 4px solid var(--accent);
+  background: var(--accent-bg);
+}
+[hidden] { display: none !important; }

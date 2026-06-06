@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent 歸因研究</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main id="app">
+  <section id="intro">
+    <h1>Agent 差異歸因研究</h1>
+    <p>每題會並列兩個 agent 對同一任務的輸出。請判斷兩者差異主要來自哪裡，給出信心與一句理由。</p>
+    <p class="muted">共 24 題，無對錯壓力，依直覺作答即可。</p>
+    <label>受試者代號（匿名）：<input id="pid" placeholder="P-anon-01" autocomplete="off"></label>
+    <button id="start">開始</button>
+  </section>
+
+  <section id="trial" hidden>
+    <header><span id="progress"></span><span id="scenario"></span></header>
+    <p id="task"></p>
+    <div id="outputs"></div>
+    <fieldset id="attribution"><legend>這兩個輸出的差異主要來自？</legend></fieldset>
+    <fieldset id="confidence"><legend>信心（1 低 – 5 高）</legend></fieldset>
+    <label id="rationale-wrap">一句理由：<input id="rationale" autocomplete="off"></label>
+    <div class="actions">
+      <button id="submit">送出並揭露正解</button>
+      <button id="next" hidden>下一題</button>
+    </div>
+    <div id="reveal" hidden></div>
+  </section>
+
+  <section id="done" hidden>
+    <h2>完成，謝謝</h2>
+    <p>請下載作答檔並回傳。</p>
+    <button id="export">下載作答檔</button>
+  </section>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>
