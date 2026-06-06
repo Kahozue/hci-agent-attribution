@@ -1,0 +1,14 @@
+{"label_count":2,"labels":[
+ {"factorial_label":"harness_main_effect","decision_kind":"initial_tool_strategy","detail_label":"tool_path_style",
+  "task_id":"bugfix-t2-03","task_category":"bug_fix","config_pair":[2,3],
+  "contrast":{"left_dominant_family_sequence":["read","edit"],"right_dominant_family_sequence":["read","search","edit"]},
+  "left":{"config":2,"harness":"opencode","model":"claude-haiku-4-5-20251001","baseline_traces":["traces/2/bugfix-t2-03/1.json"]},
+  "right":{"config":3,"harness":"hermes","model":"claude-haiku-4-5-20251001","baseline_traces":["traces/3/bugfix-t2-03/1.json"]},
+  "method_agreement":{"agreement_count":4,"method_count":4,"primary_label":"harness_main_effect","unanimous":true}},
+ {"factorial_label":"model_main_effect","decision_kind":"initial_tool_strategy","detail_label":"x",
+  "task_id":"addtests-t2-04","task_category":"add_tests","config_pair":[2,5],
+  "contrast":{"left_dominant_family_sequence":["read","shell"],"right_dominant_family_sequence":["read","edit"]},
+  "left":{"config":2,"harness":"opencode","model":"claude-haiku-4-5-20251001","baseline_traces":["traces/2/addtests-t2-04/1.json"]},
+  "right":{"config":5,"harness":"opencode","model":"gpt-5.4-mini-2026-03-17","baseline_traces":["traces/5/addtests-t2-04/1.json"]},
+  "method_agreement":{"agreement_count":3,"method_count":4,"primary_label":"model_main_effect","unanimous":false}}
+]}

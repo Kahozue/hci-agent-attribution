@@ -1,0 +1,2 @@
+[{"config_id":2,"task_id":"bugfix-t2-03","success_count":3,"n":3,"success_rate":1.0,"repeat_stability":1.0,"trace_paths":["traces/2/bugfix-t2-03/1.json","traces/2/bugfix-t2-03/2.json","traces/2/bugfix-t2-03/3.json"]},
+ {"config_id":3,"task_id":"bugfix-t2-03","success_count":2,"n":3,"success_rate":0.667,"repeat_stability":0.5,"trace_paths":["traces/3/bugfix-t2-03/1.json","traces/3/bugfix-t2-03/2.json","traces/3/bugfix-t2-03/3.json"]}]
