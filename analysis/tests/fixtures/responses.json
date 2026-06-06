@@ -1,0 +1,5 @@
+{"participant_id":"P-anon-01","condition_order":"A_then_B","trials":[
+ {"pair_id":"P01","condition":"A","scenario":"high_risk_review","choice":"model","ground_truth":"harness","correct":false,"confidence":5,"rationale":"","time_ms":1000,"order":1},
+ {"pair_id":"P02","condition":"A","scenario":"switch_after","choice":"harness","ground_truth":"harness","correct":true,"confidence":3,"rationale":"","time_ms":1000,"order":2},
+ {"pair_id":"P03","condition":"B","scenario":"high_risk_review","choice":"harness","ground_truth":"harness","correct":true,"confidence":4,"rationale":"","time_ms":1000,"order":3},
+ {"pair_id":"P04","condition":"B","scenario":"onboarding","choice":"noise","ground_truth":"interaction","correct":false,"confidence":2,"rationale":"","time_ms":1000,"order":4}]}
