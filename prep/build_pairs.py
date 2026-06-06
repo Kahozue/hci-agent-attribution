@@ -23,7 +23,7 @@ def main():
     labels = json.load(open(labels_path))["labels"]
     cells = json.load(open(cells_path))["cell_summaries"]
 
-    pairs = lib.attach_outcomes(lib.labeled_pairs(labels), cells)
+    pairs = lib.attach_outcomes(lib.labeled_pairs(labels, repo_root=a.xai_root), cells)
     pairs += lib.noise_pairs(cells, repo_root=a.xai_root, want=4)
     doc = lib.assemble(pairs)
 

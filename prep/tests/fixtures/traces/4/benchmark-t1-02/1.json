@@ -1,0 +1,1 @@
+{"config_id":4,"task_id":"benchmark-t1-02","repeat_index":1,"outcome":{"success":false},"tool_calls":[{"tool_name":"Read","step":1},{"tool_name":"Shell","step":2}]}

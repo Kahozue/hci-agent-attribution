@@ -21,6 +21,26 @@ def test_load_labeled_pairs_maps_ground_truth_and_fields():
     assert pairs[1]["ground_truth"] == "model"
 
 
+def test_tool_family_normalizes_harness_specific_names():
+    # 避免 harness 原生工具名洩漏身份
+    assert lib.tool_family("Bash") == "shell"
+    assert lib.tool_family("read_file") == "read"
+    assert lib.tool_family("Patch") == "edit"
+    assert lib.tool_family("search_files") == "search"
+    assert lib.tool_family("TodoWrite") == "plan"
+
+
+def test_labeled_pairs_falls_back_to_trace_when_no_tool_sequence():
+    # task_success_gap 的 contrast 沒有 *_dominant_family_sequence，工具序列要從 trace 抽
+    labels = json.load(open(FIX / "labels_success_gap.json"))["labels"]
+    pairs = lib.labeled_pairs(labels, repo_root=str(FIX))
+    assert pairs[0]["pair_type"] == "interaction"
+    assert pairs[0]["ground_truth"] == "interaction"
+    assert pairs[0]["left"]["tool_sequence"] == ["read", "shell"]
+    # 右邊 trace 不存在 → 安全 fallback 為空序列
+    assert pairs[0]["right"]["tool_sequence"] == []
+
+
 def test_attach_outcomes_from_cells():
     labels = json.load(open(FIX / "labels.json"))["labels"]
     cells = json.load(open(FIX / "cells.json"))
