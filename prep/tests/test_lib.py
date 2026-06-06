@@ -27,3 +27,15 @@ def test_attach_outcomes_from_cells():
     pairs = lib.attach_outcomes(lib.labeled_pairs(labels), cells)
     assert pairs[0]["left"]["outcome"] == "3/3 通過"
     assert pairs[0]["right"]["outcome"] == "2/3 通過"
+
+
+def test_build_noise_pairs_from_traces():
+    cells = json.load(open(FIX / "cells.json"))
+    pairs = lib.noise_pairs(cells, repo_root=str(FIX), want=1)
+    assert len(pairs) == 1
+    np_ = pairs[0]
+    assert np_["ground_truth"] == "noise"
+    assert np_["pair_type"] == "noise"
+    assert np_["left"]["tool_sequence"] == ["read", "edit"]
+    assert np_["right"]["tool_sequence"] == ["read", "shell", "edit"]
+    assert "重跑" in np_["left"]["evidence"]["method_agreement"]
