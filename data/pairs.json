@@ -373,55 +373,6 @@
    "set": "Set1"
   },
   {
-   "pair_type": "interaction",
-   "ground_truth": "interaction",
-   "task_id": "bugfix-t2-03",
-   "task_category": "bug_fix",
-   "left": {
-    "tool_sequence": [
-     "search",
-     "search",
-     "read",
-     "edit"
-    ],
-    "outcome": "0/3 通過",
-    "config": 5,
-    "evidence": {
-     "method_agreement": "2/4",
-     "trace_refs": [
-      "traces/5/bugfix-t2-03/1.json",
-      "traces/5/bugfix-t2-03/2.json",
-      "traces/5/bugfix-t2-03/3.json"
-     ],
-     "decision_kind": "task_success_gap"
-    }
-   },
-   "right": {
-    "tool_sequence": [
-     "shell",
-     "shell",
-     "edit",
-     "shell",
-     "shell",
-     "shell"
-    ],
-    "outcome": "1/3 通過",
-    "config": 6,
-    "evidence": {
-     "method_agreement": "2/4",
-     "trace_refs": [
-      "traces/6/bugfix-t2-03/1.json",
-      "traces/6/bugfix-t2-03/2.json",
-      "traces/6/bugfix-t2-03/3.json"
-     ],
-     "decision_kind": "task_success_gap"
-    }
-   },
-   "pair_id": "P08",
-   "scenario": "high_risk_review",
-   "set": "Set2"
-  },
-  {
    "pair_type": "harness_main_effect",
    "ground_truth": "harness",
    "task_id": "addlog-t2-03",
@@ -465,56 +416,7 @@
      "decision_kind": "initial_tool_strategy"
     }
    },
-   "pair_id": "P09",
-   "scenario": "high_risk_review",
-   "set": "Set1"
-  },
-  {
-   "pair_type": "harness_main_effect",
-   "ground_truth": "harness",
-   "task_id": "addlog-t2-04",
-   "task_category": "add_logging",
-   "left": {
-    "tool_sequence": [
-     "search",
-     "search",
-     "read",
-     "edit",
-     "read"
-    ],
-    "outcome": "3/3 通過",
-    "config": 4,
-    "evidence": {
-     "method_agreement": "4/4",
-     "trace_refs": [
-      "traces/4/addlog-t2-04/1.json",
-      "traces/4/addlog-t2-04/2.json",
-      "traces/4/addlog-t2-04/3.json"
-     ],
-     "decision_kind": "initial_tool_strategy"
-    }
-   },
-   "right": {
-    "tool_sequence": [
-     "shell",
-     "shell",
-     "edit",
-     "shell",
-     "shell"
-    ],
-    "outcome": "3/3 通過",
-    "config": 6,
-    "evidence": {
-     "method_agreement": "4/4",
-     "trace_refs": [
-      "traces/6/addlog-t2-04/1.json",
-      "traces/6/addlog-t2-04/2.json",
-      "traces/6/addlog-t2-04/3.json"
-     ],
-     "decision_kind": "initial_tool_strategy"
-    }
-   },
-   "pair_id": "P10",
+   "pair_id": "P08",
    "scenario": "high_risk_review",
    "set": "Set2"
   },
@@ -571,6 +473,128 @@
       "traces/4/bench-bottle-song/1.json",
       "traces/4/bench-bottle-song/2.json",
       "traces/4/bench-bottle-song/3.json"
+     ],
+     "decision_kind": "initial_tool_strategy"
+    }
+   },
+   "pair_id": "P09",
+   "scenario": "switch_after",
+   "set": "Set1"
+  },
+  {
+   "pair_type": "interaction",
+   "ground_truth": "interaction",
+   "task_id": "bench-bottle-song",
+   "task_category": "benchmark",
+   "left": {
+    "tool_sequence": [
+     "shell",
+     "read",
+     "read",
+     "read",
+     "shell",
+     "shell",
+     "shell",
+     "shell",
+     "shell"
+    ],
+    "outcome": "1/3 通過",
+    "config": 2,
+    "evidence": {
+     "method_agreement": "2/4",
+     "trace_refs": [
+      "traces/2/bench-bottle-song/1.json",
+      "traces/2/bench-bottle-song/2.json",
+      "traces/2/bench-bottle-song/3.json"
+     ],
+     "decision_kind": "task_success_gap"
+    }
+   },
+   "right": {
+    "tool_sequence": [
+     "plan",
+     "search",
+     "search",
+     "search",
+     "read",
+     "search",
+     "search",
+     "search",
+     "edit",
+     "edit",
+     "shell",
+     "shell",
+     "plan"
+    ],
+    "outcome": "3/3 通過",
+    "config": 4,
+    "evidence": {
+     "method_agreement": "2/4",
+     "trace_refs": [
+      "traces/4/bench-bottle-song/1.json",
+      "traces/4/bench-bottle-song/2.json",
+      "traces/4/bench-bottle-song/3.json"
+     ],
+     "decision_kind": "task_success_gap"
+    }
+   },
+   "pair_id": "P10",
+   "scenario": "switch_after",
+   "set": "Set2"
+  },
+  {
+   "pair_type": "model_main_effect",
+   "ground_truth": "model",
+   "task_id": "bench-pig-latin",
+   "task_category": "benchmark",
+   "left": {
+    "tool_sequence": [
+     "shell",
+     "shell",
+     "read",
+     "read",
+     "shell",
+     "plan",
+     "edit",
+     "shell",
+     "plan",
+     "read"
+    ],
+    "outcome": "2/3 通過",
+    "config": 2,
+    "evidence": {
+     "method_agreement": "3/4",
+     "trace_refs": [
+      "traces/2/bench-pig-latin/1.json",
+      "traces/2/bench-pig-latin/2.json",
+      "traces/2/bench-pig-latin/3.json"
+     ],
+     "decision_kind": "initial_tool_strategy"
+    }
+   },
+   "right": {
+    "tool_sequence": [
+     "search",
+     "search",
+     "search",
+     "read",
+     "search",
+     "search",
+     "search",
+     "search",
+     "read",
+     "read",
+     "edit",
+     "shell"
+    ],
+    "outcome": "3/3 通過",
+    "config": 4,
+    "evidence": {
+     "method_agreement": "3/4",
+     "trace_refs": [
+      "traces/4/bench-pig-latin/1.json",
+      "traces/4/bench-pig-latin/2.json",
+      "traces/4/bench-pig-latin/3.json"
      ],
      "decision_kind": "initial_tool_strategy"
     }
@@ -582,35 +606,35 @@
   {
    "pair_type": "interaction",
    "ground_truth": "interaction",
-   "task_id": "bench-bottle-song",
+   "task_id": "bench-pig-latin",
    "task_category": "benchmark",
    "left": {
     "tool_sequence": [
      "shell",
+     "shell",
      "read",
      "read",
-     "read",
      "shell",
+     "plan",
+     "edit",
      "shell",
-     "shell",
-     "shell",
-     "shell"
+     "plan",
+     "read"
     ],
-    "outcome": "1/3 通過",
+    "outcome": "2/3 通過",
     "config": 2,
     "evidence": {
      "method_agreement": "2/4",
      "trace_refs": [
-      "traces/2/bench-bottle-song/1.json",
-      "traces/2/bench-bottle-song/2.json",
-      "traces/2/bench-bottle-song/3.json"
+      "traces/2/bench-pig-latin/1.json",
+      "traces/2/bench-pig-latin/2.json",
+      "traces/2/bench-pig-latin/3.json"
      ],
      "decision_kind": "task_success_gap"
     }
    },
    "right": {
     "tool_sequence": [
-     "plan",
      "search",
      "search",
      "search",
@@ -618,20 +642,20 @@
      "search",
      "search",
      "search",
+     "search",
+     "read",
+     "read",
      "edit",
-     "edit",
-     "shell",
-     "shell",
-     "plan"
+     "shell"
     ],
     "outcome": "3/3 通過",
     "config": 4,
     "evidence": {
      "method_agreement": "2/4",
      "trace_refs": [
-      "traces/4/bench-bottle-song/1.json",
-      "traces/4/bench-bottle-song/2.json",
-      "traces/4/bench-bottle-song/3.json"
+      "traces/4/bench-pig-latin/1.json",
+      "traces/4/bench-pig-latin/2.json",
+      "traces/4/bench-pig-latin/3.json"
      ],
      "decision_kind": "task_success_gap"
     }
@@ -643,56 +667,55 @@
   {
    "pair_type": "model_main_effect",
    "ground_truth": "model",
-   "task_id": "bench-pig-latin",
+   "task_id": "bench-grade-school",
    "task_category": "benchmark",
    "left": {
     "tool_sequence": [
-     "shell",
-     "shell",
-     "read",
      "read",
      "shell",
-     "plan",
+     "read",
+     "shell",
+     "shell",
+     "shell",
      "edit",
-     "shell",
-     "plan",
-     "read"
+     "shell"
     ],
-    "outcome": "2/3 通過",
+    "outcome": "0/3 通過",
     "config": 2,
     "evidence": {
      "method_agreement": "3/4",
      "trace_refs": [
-      "traces/2/bench-pig-latin/1.json",
-      "traces/2/bench-pig-latin/2.json",
-      "traces/2/bench-pig-latin/3.json"
+      "traces/2/bench-grade-school/1.json",
+      "traces/2/bench-grade-school/2.json",
+      "traces/2/bench-grade-school/3.json"
      ],
      "decision_kind": "initial_tool_strategy"
     }
    },
    "right": {
     "tool_sequence": [
+     "plan",
      "search",
      "search",
-     "search",
-     "read",
-     "search",
-     "search",
-     "search",
-     "search",
-     "read",
      "read",
      "edit",
-     "shell"
+     "webfetch",
+     "webfetch",
+     "webfetch",
+     "webfetch",
+     "edit",
+     "read",
+     "shell",
+     "plan"
     ],
-    "outcome": "3/3 通過",
+    "outcome": "1/3 通過",
     "config": 4,
     "evidence": {
      "method_agreement": "3/4",
      "trace_refs": [
-      "traces/4/bench-pig-latin/1.json",
-      "traces/4/bench-pig-latin/2.json",
-      "traces/4/bench-pig-latin/3.json"
+      "traces/4/bench-grade-school/1.json",
+      "traces/4/bench-grade-school/2.json",
+      "traces/4/bench-grade-school/3.json"
      ],
      "decision_kind": "initial_tool_strategy"
     }
@@ -700,187 +723,6 @@
    "pair_id": "P13",
    "scenario": "switch_after",
    "set": "Set1"
-  },
-  {
-   "pair_type": "interaction",
-   "ground_truth": "interaction",
-   "task_id": "bench-pig-latin",
-   "task_category": "benchmark",
-   "left": {
-    "tool_sequence": [
-     "shell",
-     "shell",
-     "read",
-     "read",
-     "shell",
-     "plan",
-     "edit",
-     "shell",
-     "plan",
-     "read"
-    ],
-    "outcome": "2/3 通過",
-    "config": 2,
-    "evidence": {
-     "method_agreement": "2/4",
-     "trace_refs": [
-      "traces/2/bench-pig-latin/1.json",
-      "traces/2/bench-pig-latin/2.json",
-      "traces/2/bench-pig-latin/3.json"
-     ],
-     "decision_kind": "task_success_gap"
-    }
-   },
-   "right": {
-    "tool_sequence": [
-     "search",
-     "search",
-     "search",
-     "read",
-     "search",
-     "search",
-     "search",
-     "search",
-     "read",
-     "read",
-     "edit",
-     "shell"
-    ],
-    "outcome": "3/3 通過",
-    "config": 4,
-    "evidence": {
-     "method_agreement": "2/4",
-     "trace_refs": [
-      "traces/4/bench-pig-latin/1.json",
-      "traces/4/bench-pig-latin/2.json",
-      "traces/4/bench-pig-latin/3.json"
-     ],
-     "decision_kind": "task_success_gap"
-    }
-   },
-   "pair_id": "P14",
-   "scenario": "switch_after",
-   "set": "Set2"
-  },
-  {
-   "pair_type": "model_main_effect",
-   "ground_truth": "model",
-   "task_id": "bench-grade-school",
-   "task_category": "benchmark",
-   "left": {
-    "tool_sequence": [
-     "read",
-     "shell",
-     "read",
-     "shell",
-     "shell",
-     "shell",
-     "edit",
-     "shell"
-    ],
-    "outcome": "0/3 通過",
-    "config": 2,
-    "evidence": {
-     "method_agreement": "3/4",
-     "trace_refs": [
-      "traces/2/bench-grade-school/1.json",
-      "traces/2/bench-grade-school/2.json",
-      "traces/2/bench-grade-school/3.json"
-     ],
-     "decision_kind": "initial_tool_strategy"
-    }
-   },
-   "right": {
-    "tool_sequence": [
-     "plan",
-     "search",
-     "search",
-     "read",
-     "edit",
-     "webfetch",
-     "webfetch",
-     "webfetch",
-     "webfetch",
-     "edit",
-     "read",
-     "shell",
-     "plan"
-    ],
-    "outcome": "1/3 通過",
-    "config": 4,
-    "evidence": {
-     "method_agreement": "3/4",
-     "trace_refs": [
-      "traces/4/bench-grade-school/1.json",
-      "traces/4/bench-grade-school/2.json",
-      "traces/4/bench-grade-school/3.json"
-     ],
-     "decision_kind": "initial_tool_strategy"
-    }
-   },
-   "pair_id": "P15",
-   "scenario": "switch_after",
-   "set": "Set1"
-  },
-  {
-   "pair_type": "interaction",
-   "ground_truth": "interaction",
-   "task_id": "bench-grade-school",
-   "task_category": "benchmark",
-   "left": {
-    "tool_sequence": [
-     "read",
-     "shell",
-     "read",
-     "shell",
-     "shell",
-     "shell",
-     "edit",
-     "shell"
-    ],
-    "outcome": "0/3 通過",
-    "config": 2,
-    "evidence": {
-     "method_agreement": "2/4",
-     "trace_refs": [
-      "traces/2/bench-grade-school/1.json",
-      "traces/2/bench-grade-school/2.json",
-      "traces/2/bench-grade-school/3.json"
-     ],
-     "decision_kind": "task_success_gap"
-    }
-   },
-   "right": {
-    "tool_sequence": [
-     "plan",
-     "search",
-     "search",
-     "read",
-     "edit",
-     "webfetch",
-     "webfetch",
-     "webfetch",
-     "webfetch",
-     "edit",
-     "read",
-     "shell",
-     "plan"
-    ],
-    "outcome": "1/3 通過",
-    "config": 4,
-    "evidence": {
-     "method_agreement": "2/4",
-     "trace_refs": [
-      "traces/4/bench-grade-school/1.json",
-      "traces/4/bench-grade-school/2.json",
-      "traces/4/bench-grade-school/3.json"
-     ],
-     "decision_kind": "task_success_gap"
-    }
-   },
-   "pair_id": "P16",
-   "scenario": "switch_after",
-   "set": "Set2"
   },
   {
    "pair_type": "model_main_effect",
@@ -928,9 +770,9 @@
      "decision_kind": "initial_tool_strategy"
     }
    },
-   "pair_id": "P17",
+   "pair_id": "P14",
    "scenario": "high_risk_review",
-   "set": "Set1"
+   "set": "Set2"
   },
   {
    "pair_type": "model_main_effect",
@@ -980,9 +822,9 @@
      "decision_kind": "initial_tool_strategy"
     }
    },
-   "pair_id": "P18",
+   "pair_id": "P15",
    "scenario": "onboarding",
-   "set": "Set2"
+   "set": "Set1"
   },
   {
    "pair_type": "interaction",
@@ -1032,55 +874,8 @@
      "decision_kind": "task_success_gap"
     }
    },
-   "pair_id": "P19",
+   "pair_id": "P16",
    "scenario": "onboarding",
-   "set": "Set1"
-  },
-  {
-   "pair_type": "model_main_effect",
-   "ground_truth": "model",
-   "task_id": "addlog-t2-01",
-   "task_category": "add_logging",
-   "left": {
-    "tool_sequence": [
-     "read",
-     "edit",
-     "edit",
-     "read"
-    ],
-    "outcome": "3/3 通過",
-    "config": 3,
-    "evidence": {
-     "method_agreement": "4/4",
-     "trace_refs": [
-      "traces/3/addlog-t2-01/1.json",
-      "traces/3/addlog-t2-01/2.json",
-      "traces/3/addlog-t2-01/3.json"
-     ],
-     "decision_kind": "initial_tool_strategy"
-    }
-   },
-   "right": {
-    "tool_sequence": [
-     "search",
-     "search",
-     "read",
-     "edit"
-    ],
-    "outcome": "3/3 通過",
-    "config": 5,
-    "evidence": {
-     "method_agreement": "4/4",
-     "trace_refs": [
-      "traces/5/addlog-t2-01/1.json",
-      "traces/5/addlog-t2-01/2.json",
-      "traces/5/addlog-t2-01/3.json"
-     ],
-     "decision_kind": "initial_tool_strategy"
-    }
-   },
-   "pair_id": "P20",
-   "scenario": "high_risk_review",
    "set": "Set2"
   },
   {
@@ -1130,7 +925,7 @@
      "decision_kind": "noise"
     }
    },
-   "pair_id": "P21",
+   "pair_id": "P17",
    "scenario": "switch_after",
    "set": "Set1"
   },
@@ -1176,7 +971,7 @@
      "decision_kind": "noise"
     }
    },
-   "pair_id": "P22",
+   "pair_id": "P18",
    "scenario": "switch_after",
    "set": "Set2"
   },
@@ -1224,7 +1019,7 @@
      "decision_kind": "noise"
     }
    },
-   "pair_id": "P23",
+   "pair_id": "P19",
    "scenario": "switch_after",
    "set": "Set1"
   },
@@ -1270,8 +1065,8 @@
      "decision_kind": "noise"
     }
    },
-   "pair_id": "P24",
-   "scenario": "switch_after",
+   "pair_id": "P20",
+   "scenario": "onboarding",
    "set": "Set2"
   }
  ]

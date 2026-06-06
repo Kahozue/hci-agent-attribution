@@ -8,23 +8,50 @@
 </head>
 <body>
 <main id="app">
+  <header class="study-header">
+    <div>
+      <p class="eyebrow">本次測試</p>
+      <h1>Agent 差異歸因研究</h1>
+    </div>
+    <div class="header-actions">
+      <button id="open-status" type="button" class="btn-secondary" hidden>填答狀況</button>
+      <button id="open-help" type="button" class="btn-secondary">名詞解釋</button>
+    </div>
+  </header>
+
   <section id="intro" class="card">
-    <h1>Agent 差異歸因研究</h1>
+    <h2>開始前說明</h2>
     <p>每題並列兩個 agent 對同一任務的輸出。請判斷兩者差異主要來自哪裡，並給出信心與一句理由。</p>
-    <p class="muted">共 24 題，無對錯壓力，依直覺作答即可。</p>
+    <p class="muted">共 20 題，無對錯壓力，依直覺作答即可。</p>
+    <div class="notice">
+      測試中會出現兩種呈現：摘要版只顯示工具序列與結果；證據版會多顯示 M1–M4 一致度、trace 出處與判斷類型。每題上方都會標示目前版本。
+    </div>
     <label for="pid">受試者代號（匿名）</label>
     <input id="pid" type="text" placeholder="例如 P-anon-01" autocomplete="off">
     <div class="actions"><button id="start" class="btn-primary">開始</button></div>
   </section>
 
   <section id="trial" hidden>
-    <div class="progress-row">
-      <span id="progress"></span>
-      <span id="scenario" class="badge"></span>
+    <div class="trial-top">
+      <div>
+        <div class="progress-row">
+          <span id="progress"></span>
+          <span id="scenario" class="badge"></span>
+        </div>
+        <div class="progressbar"><div id="progressfill"></div></div>
+      </div>
+      <div class="condition-box">
+        <span id="condition-name"></span>
+        <p id="condition-desc"></p>
+      </div>
     </div>
-    <div class="progressbar"><div id="progressfill"></div></div>
 
-    <p id="task" class="task"></p>
+    <section class="task-card" aria-labelledby="task">
+      <p class="eyebrow">任務背景</p>
+      <h2 id="task" class="task"></h2>
+      <p id="task-context" class="muted"></p>
+    </section>
+
     <div id="outputs"></div>
 
     <fieldset id="attribution">
@@ -52,9 +79,45 @@
 
   <section id="done" class="card" hidden>
     <h2>完成，謝謝你的參與</h2>
-    <p class="muted">請下載作答檔並回傳。</p>
+    <p class="muted">以下是本次填答的行為統計與校準摘要。請先確認資料合理，再下載作答檔回傳。</p>
+    <div id="summary"></div>
     <div class="actions"><button id="export" class="btn-primary">下載作答檔</button></div>
   </section>
+
+  <dialog id="help-dialog" class="dialog-panel">
+    <form method="dialog">
+      <div class="dialog-head">
+        <h2>名詞解釋</h2>
+        <button class="icon-close" value="close" aria-label="關閉">×</button>
+      </div>
+      <dl class="defs">
+        <dt>任務</dt>
+        <dd>兩個 agent 都在處理同一個 coding task，例如 bug 修復、補測試、加入 logging 或 benchmark。畫面會給任務類型與情境，不只顯示 task id。</dd>
+        <dt>M1–M4 一致度</dt>
+        <dd>四種歸因方法對此 pair 的判斷一致程度。4/4 代表四種方法同意；摘要版不顯示此欄，證據版才顯示。</dd>
+        <dt>trace 出處</dt>
+        <dd>此輸出背後的執行紀錄檔路徑，用來支持來源可追蹤性。它不是要受試者讀 JSON，而是標示證據來源。</dd>
+        <dt>判斷類型</dt>
+        <dd>資料建立時主要依據的差異線索，例如初始工具策略、輸出慣例、任務成敗落差或重跑變異。</dd>
+        <dt>A/B 呈現</dt>
+        <dd>A 是摘要版，B 是證據版。兩者比較的是透明性與 progressive disclosure 對歸因判斷的影響。</dd>
+      </dl>
+    </form>
+  </dialog>
+
+  <dialog id="status-dialog" class="dialog-panel wide">
+    <form method="dialog">
+      <div class="dialog-head">
+        <h2>填答狀況與回溯</h2>
+        <button class="icon-close" value="close" aria-label="關閉">×</button>
+      </div>
+      <div id="status-summary"></div>
+      <div class="status-layout">
+        <div id="status-list"></div>
+        <div id="status-detail" class="status-detail"></div>
+      </div>
+    </form>
+  </dialog>
 </main>
 <script type="module" src="app.js"></script>
 </body>

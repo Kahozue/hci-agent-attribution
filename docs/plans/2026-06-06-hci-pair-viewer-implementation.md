@@ -2,6 +2,8 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+> 2026-06-06 更新：早期草稿中的「24 題／24 對」已被現行 proposal contract 覆蓋；目前實作與 `docs/specs/2026-06-06-hci-agent-attribution-design-v1.md` 均以 20 trial、三情境 8/8/4、四類 ground truth 為準。
+
 **Goal:** 建一套 pair-viewer 使用者研究工具：把 xAI 的 24 對 contrastive pair 變成可操作的歸因實驗（A/B 兩條件），收資料、做分析、產出回答 RQ1–4 的圖表。
 
 **Architecture:** 三段管線——`prep/build_pairs.py`（VPS：讀 xAI 產物→`data/pairs.json`）→ `viewer/`（靜態單頁，跑 24 題、匯出作答）→ `analysis/analyze.py`（讀作答→指標與圖）。純邏輯（資料組裝、抽題序列、計分、指標）以 TDD 寫；DOM/CSS 以視覺驗證。設計與框架以 `docs/specs/2026-06-06-hci-agent-attribution-design-v1.md` 為準。

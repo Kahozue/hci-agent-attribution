@@ -14,3 +14,4 @@ viewer/responses-*.json
 venv/
 node_modules/
 analysis/figures/*.png
+.gstack/

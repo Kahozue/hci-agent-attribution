@@ -1,4 +1,5 @@
 """純函式：把 xAI 產物轉成 pair-viewer 用的 pairs。可獨立測試。"""
+import copy
 import json
 import os
 
@@ -149,11 +150,90 @@ CAT_SCENARIO = {
     "add_tests": "onboarding",
 }
 
+SCENARIO_QUOTA = {
+    "high_risk_review": 8,
+    "switch_after": 8,
+    "onboarding": 4,
+}
+
+# Proposal 要 20 trial，但上游標籤為 harness/model/interaction 20 對，
+# 因此保留 4 對 noise 後，採接近均衡且不增造資料的 5/5/6/4。
+GROUND_TRUTH_TARGET = {
+    "harness": 5,
+    "model": 5,
+    "interaction": 6,
+    "noise": 4,
+}
+
+NOISE_SCENARIOS = ("switch_after", "switch_after", "switch_after", "onboarding")
+
 
 def _scenario(p):
+    if "_scenario_override" in p:
+        return p["_scenario_override"]
     if p["pair_type"] == "noise":
         return "switch_after"
     return CAT_SCENARIO.get(p["task_category"], "switch_after")
+
+
+def _count(items, key):
+    counts = {}
+    for item in items:
+        value = item[key] if key in item else _scenario(item)
+        counts[value] = counts.get(value, 0) + 1
+    return counts
+
+
+def _drop_candidate(items, scenario):
+    type_counts = _count(items, "ground_truth")
+    candidates = [p for p in items if _scenario(p) == scenario and p["ground_truth"] != "noise"]
+    removable = [p for p in candidates if type_counts[p["ground_truth"]] > GROUND_TRUTH_TARGET[p["ground_truth"]]]
+    if not removable:
+        removable = candidates
+
+    def score(p):
+        gt = p["ground_truth"]
+        overage = type_counts[gt] - GROUND_TRUTH_TARGET.get(gt, 0)
+        ratio = type_counts[gt] / GROUND_TRUTH_TARGET.get(gt, max(type_counts[gt], 1))
+        return (overage, ratio, p.get("_source_index", 0))
+
+    return max(removable, key=score)
+
+
+def select_study_pairs(labeled, noise):
+    """選出符合 proposal 的 20 題：三情境 8/8/4、四類 ground truth 皆保留。
+
+    上游 xAI labels 已有 20 對但缺 noise；proposal 又要求 20 trial 且含 noise。
+    這裡用既有正式重跑補 4 對 noise，再從非 noise 中修剪 4 對，避免把研究擴成
+    proposal 以外的 24 題。
+    """
+    items = []
+    for i, p in enumerate(labeled):
+        item = copy.deepcopy(p)
+        item["_source_index"] = i
+        item["_scenario_override"] = _scenario(item)
+        items.append(item)
+
+    if len(noise) < GROUND_TRUTH_TARGET["noise"]:
+        raise ValueError("noise pairs fewer than proposal target")
+    for i, p in enumerate(noise[:GROUND_TRUTH_TARGET["noise"]]):
+        item = copy.deepcopy(p)
+        item["_source_index"] = len(items) + i
+        item["_scenario_override"] = NOISE_SCENARIOS[i] if i < len(NOISE_SCENARIOS) else _scenario(item)
+        items.append(item)
+
+    for scenario, target in SCENARIO_QUOTA.items():
+        while _count(items, "scenario").get(scenario, 0) > target:
+            items.remove(_drop_candidate(items, scenario))
+
+    if len(items) != sum(SCENARIO_QUOTA.values()):
+        raise ValueError(f"selected {len(items)} pairs, expected {sum(SCENARIO_QUOTA.values())}")
+    if _count(items, "scenario") != SCENARIO_QUOTA:
+        raise ValueError(f"scenario quota mismatch: {_count(items, 'scenario')}")
+    if _count(items, "ground_truth") != GROUND_TRUTH_TARGET:
+        raise ValueError(f"ground-truth target mismatch: {_count(items, 'ground_truth')}")
+
+    return items
 
 
 def assemble(pairs):
@@ -162,6 +242,8 @@ def assemble(pairs):
         p["pair_id"] = f"P{i + 1:02d}"
         p["scenario"] = _scenario(p)
         p["set"] = "Set1" if i % 2 == 0 else "Set2"
+        p.pop("_source_index", None)
+        p.pop("_scenario_override", None)
     pairs.sort(key=lambda p: p["pair_id"])
     return {
         "schema_version": 1,

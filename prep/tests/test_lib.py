@@ -72,3 +72,56 @@ def test_assemble_pairs_json_structure():
     assert all(p["scenario"] in {"switch_after", "high_risk_review", "onboarding"} for p in doc["pairs"])
     assert all(p["set"] in {"Set1", "Set2"} for p in doc["pairs"])
     assert doc["schema_version"] == 1
+
+
+def test_select_study_pairs_matches_proposal_counts():
+    def pair(pair_type, ground_truth, task_category):
+        return {
+            "pair_type": pair_type,
+            "ground_truth": ground_truth,
+            "task_id": f"{task_category}-{ground_truth}",
+            "task_category": task_category,
+            "left": {"tool_sequence": ["read"], "outcome": "1/1 通過", "config": 1, "evidence": {}},
+            "right": {"tool_sequence": ["edit"], "outcome": "1/1 通過", "config": 2, "evidence": {}},
+        }
+
+    labeled = (
+        [pair("harness_main_effect", "harness", "bug_fix") for _ in range(6)]
+        + [pair("model_main_effect", "model", "benchmark") for _ in range(6)]
+        + [pair("interaction", "interaction", "bug_fix") for _ in range(5)]
+        + [pair("interaction", "interaction", "benchmark") for _ in range(3)]
+        + [pair("model_main_effect", "model", "add_tests") for _ in range(2)]
+        + [pair("interaction", "interaction", "add_tests") for _ in range(1)]
+    )
+    noise = [pair("noise", "noise", "add_tests") for _ in range(4)]
+
+    doc = lib.assemble(lib.select_study_pairs(labeled, noise))
+    assert len(doc["pairs"]) == 20
+
+    scenarios = {}
+    ground_truths = {}
+    sets = {}
+    for p in doc["pairs"]:
+        scenarios[p["scenario"]] = scenarios.get(p["scenario"], 0) + 1
+        ground_truths[p["ground_truth"]] = ground_truths.get(p["ground_truth"], 0) + 1
+        sets[p["set"]] = sets.get(p["set"], 0) + 1
+
+    assert scenarios == {"high_risk_review": 8, "switch_after": 8, "onboarding": 4}
+    assert ground_truths == {"harness": 5, "model": 5, "interaction": 6, "noise": 4}
+    assert sets == {"Set1": 10, "Set2": 10}
+
+
+def test_generated_pairs_json_matches_proposal_contract():
+    data_path = pathlib.Path(__file__).parents[2] / "data" / "pairs.json"
+    pairs = json.load(open(data_path))["pairs"]
+
+    def counts(key):
+        out = {}
+        for p in pairs:
+            out[p[key]] = out.get(p[key], 0) + 1
+        return out
+
+    assert len(pairs) == 20
+    assert counts("scenario") == {"high_risk_review": 8, "onboarding": 4, "switch_after": 8}
+    assert counts("ground_truth") == {"harness": 5, "interaction": 6, "model": 5, "noise": 4}
+    assert counts("set") == {"Set1": 10, "Set2": 10}
